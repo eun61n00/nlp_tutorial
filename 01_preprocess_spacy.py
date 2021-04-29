@@ -12,6 +12,6 @@ for token in doc:
 
 # Visualize spaCy results in a single line
 with open('01_preprocess_spacy_dep.svg', 'wt') as f:
-    f.write(spacy.displacy.render(doc, style="dep")) # Dependency parse
+    f.write(spacy.displacy.render(doc, style="dep")) # 'Dep'endency parse
 with open('01_preprocess_spacy_ent.html', 'wt') as f:
-    f.write(spacy.displacy.render(doc, style="ent")) # Entity recognition
+    f.write(spacy.displacy.render(doc, style="ent")) # Name 'ent'ity recognition
