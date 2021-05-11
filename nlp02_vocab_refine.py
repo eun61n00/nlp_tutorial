@@ -1,6 +1,7 @@
 from sklearn import datasets
 from nlp02_onehot_word import build_vocab, tokenize
 from nlp02_bow_doc     import build_docfreq
+import spacy
 
 def build_vocab_df(docs, min_len=2, stopwords=None, min_df=2, max_df_ratio=0.5, tokenizer=tokenize):
     words = set()
@@ -19,7 +20,6 @@ def build_vocab_df(docs, min_len=2, stopwords=None, min_df=2, max_df_ratio=0.5, 
     vocab = {word: idx for idx, word in enumerate(selected)}  # Re-build the vocabulary
     return vocab
 
-import spacy
 nlp = spacy.load('en_core_web_sm', disable=['parser', 'ner'])
 
 def tokenize_spacy(doc):

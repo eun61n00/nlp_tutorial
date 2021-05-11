@@ -23,7 +23,7 @@ print(f'* The average of document frequency: {df.mean():.3f}')
 
 # Print low DF (rare) words
 print('### Low DF (rare) words')
-for df_value in range(1, 10): # Try to check more words
+for df_value in range(1, 10): # Try to check more words (now DF < 10)
     indices = np.where(df == df_value)[0]
     print(f'* DF = {df_value}')
     print(f'  * {len(indices)} words ({len(indices) / len(vocab) * 100:.1f} % of vocabulary)')
@@ -34,7 +34,7 @@ for df_value in range(1, 10): # Try to check more words
 
 # Print high DF (common) words
 print('### High DF (common) words')
-df_topk = np.sort(df)[::-1][:100] # Try to check more words
+df_topk = sorted(df, reverse=True)[:100] # Try to check more words (now top-100 words)
 for df_value in np.unique(df_topk)[::-1]:
     indices = np.where(df == df_value)[0]
     print(f'* DF = {df_value}')
