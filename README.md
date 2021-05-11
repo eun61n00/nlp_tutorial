@@ -10,13 +10,13 @@ This tutorial is an _additional_ part of my four sequels of tutorials. Many exam
 
 ### Practice Examples
 #### **1) NLP Preparation**
-* [Simple Word Tokenization](https://github.com/mint-lab/nlp_tutorial/blob/master/01_token_simple.py)
-* [Word Tokenization with NLTK](https://github.com/mint-lab/nlp_tutorial/blob/master/01_token_nltk.py)
-* [Word Tokenization with TorchText (spaCy)](https://github.com/mint-lab/nlp_tutorial/blob/master/01_token_torchtext.py)
-* [Morpheme Tokenization with KoNLPy](https://github.com/mint-lab/nlp_tutorial/blob/master/01_token_konlpy.py)
-* [Preprocessing with NLTK](https://github.com/mint-lab/nlp_tutorial/blob/master/01_preprocess_nltk.py)
-* [Preprocessing with spaCy](https://github.com/mint-lab/nlp_tutorial/blob/master/01_preprocess_spacy.py)
-* [Preprocessing with KoNLPy](https://github.com/mint-lab/nlp_tutorial/blob/master/01_preprocess_konlpy.py)
+* [Simple Word Tokenization](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp01_token_simple.py)
+* [Word Tokenization with NLTK](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp01_token_nltk.py)
+* [Word Tokenization with TorchText (spaCy)](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp01_token_torchtext.py)
+* [Morpheme Tokenization with KoNLPy](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp01_token_konlpy.py)
+* [Preprocessing with NLTK](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp01_preprocess_nltk.py)
+* [Preprocessing with spaCy](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp01_preprocess_spacy.py)
+* [Preprocessing with KoNLPy](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp01_preprocess_konlpy.py)
 
 #### **2) Text Vectorization**
 #### **3) Text Classification**

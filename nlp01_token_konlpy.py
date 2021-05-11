@@ -11,9 +11,9 @@ tokenizers = [
     #{'name': 'KoNLPy MeCab-Ko',       'tokenizer': konlpy.tag.Mecab().morphs}, # Error in Windows
 ]
 
-for tw in tokenizers:
+for ts in tokenizers:
     start = time.time()
-    tokens = tw['tokenizer'](text)
+    tokens = ts['tokenizer'](text)
     elapse = time.time() - start
-    print(f"### {tw['name']} (time: {elapse:.3f} [sec])")
+    print(f"### {ts['name']} (time: {elapse:.3f} [sec])")
     print(tokens)

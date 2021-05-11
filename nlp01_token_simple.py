@@ -9,5 +9,5 @@ insights contained in the documents as well as categorize and organize the docum
 Challenges in natural language processing frequently involve speech recognition,
 natural language understanding, and natural-language generation.'''
 
-tokens = [word.strip(' .,?!:;()"') for line in wikipedia.splitlines() for word in line.split(' ')]
+tokens = [word.strip(' .,?!:;()"') for word in wikipedia.replace('\n', ' ').split(' ')]
 print(tokens) # ['Natural', 'language', 'processing', 'NLP', 'is', ... ]

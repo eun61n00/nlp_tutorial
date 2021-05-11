@@ -13,7 +13,7 @@ tokenizers = [
     {'name': 'TorchText-spacy',  'tokenizer': torchtext.data.utils.get_tokenizer('spacy')},
 ]
 
-for tw in tokenizers:
-    tokens = tw['tokenizer'](text)
-    print('### ' + tw['name'])
+for ts in tokenizers:
+    tokens = ts['tokenizer'](text)
+    print('### ' + ts['name'])
     print(tokens)

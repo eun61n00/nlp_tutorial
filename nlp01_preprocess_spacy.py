@@ -11,7 +11,7 @@ for token in doc:
     print(f'{token.text:10} | {token.lemma_:10} | {token.pos_:7} | {token.tag_:7} | {token.is_stop}')
 
 # Visualize spaCy results in a single line
-with open('01_preprocess_spacy_dep.svg', 'wt') as f:
+with open('nlp01_preprocess_spacy_dep.svg', 'wt') as f:
     f.write(spacy.displacy.render(doc, style="dep")) # 'Dep'endency parse
-with open('01_preprocess_spacy_ent.html', 'wt') as f:
+with open('nlp01_preprocess_spacy_ent.html', 'wt') as f:
     f.write(spacy.displacy.render(doc, style="ent")) # Name 'ent'ity recognition
