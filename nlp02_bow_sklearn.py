@@ -6,7 +6,7 @@ train = datasets.fetch_20newsgroups(subset='train', remove=remove)
 test  = datasets.fetch_20newsgroups(subset='test',  remove=remove)
 
 # Train the vectorizer
-vectorizer = feature_extraction.text.CountVectorizer() # Try 'CountVectorizer()' (Accuracy: 0.093)
+vectorizer = feature_extraction.text.TfidfVectorizer() # Try 'CountVectorizer()' (Accuracy: 0.093)
 vectorizer.fit(train.data)
 
 # Vectorize the training and test data

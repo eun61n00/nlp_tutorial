@@ -8,13 +8,13 @@ def tokenize(doc):
     tokens = [word.strip(IGNORE) for word in doc.split(' ') if len(word) > 0]
     return tokens
 
-def build_vocab(docs, min_len=2, stopwords=None):
-    words = set()
-    for doc in docs:
-        words |= {token for token in tokenize(doc) if len(token) >= min_len}
+def build_vocab(docs, min_len=2, stopwords=None, tokenizer=tokenize):
+    words = set()                                         # Build as a set
+    for doc in docs:                                      # Combine token sets
+        words |= {token for token in tokenizer(doc) if len(token) >= min_len}
     if stopwords is not None:
-        words -= set(stopwords) # Exclude stopwords
-    vocab = {word: idx for idx, word in enumerate(words)}
+        words -= set(stopwords)                           # Exclude the stopword set
+    vocab = {word: idx for idx, word in enumerate(words)} # Build as a dictonary
     return vocab
 
 def word2onehot(word, vocab):

@@ -8,21 +8,23 @@ test  = datasets.fetch_20newsgroups(subset='test',  remove=remove)
 
 # Train vectorizers
 vectorizers = [
-    {'name': 'Original',        'izer': feature_extraction.text.TfidfVectorizer()},
-    {'name': '(5, 0.1)',        'izer': feature_extraction.text.TfidfVectorizer(min_df=5, max_df=0.1)},
-    {'name': '(5, 0.1)+StopWd', 'izer': feature_extraction.text.TfidfVectorizer(min_df=5, max_df=0.1, stop_words='english')},
-    {'name': '(5, 0.1)+spaCy',  'izer': feature_extraction.text.TfidfVectorizer(min_df=5, max_df=0.1, tokenizer=tokenize_spacy)},
+    {'name': 'Original',       'izer': feature_extraction.text.TfidfVectorizer()},
+    {'name': '(5, 0.1)',       'izer': feature_extraction.text.TfidfVectorizer(min_df=5, max_df=0.1)},
+    {'name': '(5, 0.1)+StopW', 'izer': feature_extraction.text.TfidfVectorizer(min_df=5, max_df=0.1, stop_words='english')},
+    {'name': '(5, 0.1)+spaCy', 'izer': feature_extraction.text.TfidfVectorizer(min_df=5, max_df=0.1, tokenizer=tokenize_spacy)},
 ]
 for vector in vectorizers:
     vector['izer'].fit(train.data)
 
-# Compare with a simple test
-print('### Simple test')
+# Test the vocaburaries
+print('### Vocabulary size')
 for vector in vectorizers:
     print(f'* {vector["name"]}: {len(vector["izer"].vocabulary_)} words')
+
+print('### Simple OOV test')
 check_vocab([vector["izer"].vocabulary_ for vector in vectorizers])
 
-# Compare with the SVM classifier
+# Test with the SVM classifier
 print('### Classification test (accuracy)')
 for vector in vectorizers:
     # Vectorize the training and test data

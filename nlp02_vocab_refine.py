@@ -1,21 +1,15 @@
 from sklearn import datasets
 from nlp02_onehot_word import build_vocab, tokenize
-from nlp02_bow_doc     import build_docfreq
+from nlp02_bow_hand    import build_dcount
 import spacy
 
-def build_vocab_df(docs, min_len=2, stopwords=None, min_df=2, max_df_ratio=0.5, tokenizer=tokenize):
-    words = set()
-    for doc in docs:
-        words |= {token for token in tokenizer(doc) if len(token) >= min_len}
-    if stopwords is not None:
-        words -= set(stopwords)                               # Exclude stopwords
-    vocab = {word: idx for idx, word in enumerate(words)}     # Build the initial vocabulary
-
-    df = build_docfreq(docs, vocab)                           # Calculate the DF
-    max_df = max_df_ratio * len(docs)
+def build_vocab_df(docs, min_len=2, stopwords=None, tokenizer=tokenize, min_dc=2, max_df=0.5):
+    vocab = build_vocab(docs, min_len, stopwords, tokenizer)  # Build the initial vocabulary
+    dcount = build_dcount(docs, vocab)                        # Calculate the DF
+    max_dc = max_df * len(docs)
     selected = []
     for idx, (word, _) in enumerate(vocab.items()):
-        if df[idx] >= min_df and df[idx] <= max_df:           # Check two DF conditions
+        if dcount[idx] >= min_dc and dcount[idx] <= max_dc:   # Check two DF conditions
             selected.append(word)
     vocab = {word: idx for idx, word in enumerate(selected)}  # Re-build the vocabulary
     return vocab
@@ -49,11 +43,14 @@ if __name__ == '__main__':
 
     # Build vocaburaries
     vocab1 = build_vocab(train.data)
-    vocab2 = build_vocab_df(train.data, min_df=5, max_df_ratio=0.1)
-    vocab3 = build_vocab_df(train.data, min_df=5, max_df_ratio=0.1, tokenizer=tokenize_spacy)
+    vocab2 = build_vocab_df(train.data, min_dc=5, max_df=0.1)
+    vocab3 = build_vocab_df(train.data, min_dc=5, max_df=0.1, tokenizer=tokenize_spacy)
 
     # Test the vocaburaries
     vocabs = [vocab1, vocab2, vocab3]
+    print('### Vocabulary size')
     for idx, vocab in enumerate(vocabs):
-        print(f'* The size of vocab{idx+1}: {len(vocab)}')
+        print(f'* vocab{idx+1}: {len(vocab)} words')
+
+    print('### Simple OOV test')
     check_vocab(vocabs)
