@@ -28,7 +28,7 @@ def build_dcount(docs, vocab):
 def build_idf(docs, vocab):
     dcount = build_dcount(docs, vocab)
     n_docs = len(docs)
-    idf = np.log((1 + n_docs) / (1 + dcount)) + 1
+    idf = np.log(n_docs / (1 + dcount)) + 1
     return idf
 
 def doc2bow_tfidf(doc, vocab, idf):

@@ -48,7 +48,7 @@ for dc_value in range(1, 10): # Try to check more words (now dcount < 10)
 # The rare words are dominant (DC 1: 67.8%, DC 2: 10.5%, DC 3: 4.5%).
 # They are typos (e.g. aswer), codes (e.g. a</9&zy<hgd), and numbers (e.g. 02:30:21)
 
-# Plot common words
+# Plot common (high document count) words
 topk, step = 1000, 50
 dcount_pair = [(dc_value, idx) for idx, dc_value in enumerate(dcount)]
 dcount_sort = sorted(dcount_pair, key=lambda x: x[0], reverse=True)

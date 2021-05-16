@@ -17,9 +17,9 @@ for tk in tokens:
 # Print the default similarity of several pairs
 print('### The default vs. consine similarity')
 for (i, j) in [(0, 1), (0, 2), (0, 4)]:
-    default = tokens[i].similarity(tokens[j])
-    cosine  = cosine_similarity([tokens[i].vector], [tokens[j].vector])[0,0]
-    print(f'* {tokens[i].text} - {tokens[j].text}: Default {default:.3f} vs. cosine {cosine:.3f}') # They are same!
+    member = tokens[i].similarity(tokens[j])
+    cosine = cosine_similarity([tokens[i].vector], [tokens[j].vector])[0,0]
+    print(f'* {tokens[i].text} - {tokens[j].text}: MemberFunc {member:.3f} vs. Cosine {cosine:.3f}') # They are same!
 
 # Plot a confusion matrix of the cosine similarity
 word_vectors = [tk.vector for tk in tokens]
