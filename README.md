@@ -2,10 +2,10 @@
 _Natural language processing tutorial with Python_ has been initiated to teach undergraduate students in [SeoulTech](https://en.seoultech.ac.kr/) about natural language processing.
 
 This tutorial is an _additional_ part of my four sequels of tutorials. Many examples and practices are connected each other. Please refer my previous ones also.
-1. Python Review: From Begineers to Intermediate
-2. Programming meets Mathematics: Building Mathematical Intuition with SciPy
-3. Machine Learning Tutorial with Scikit-learn
-4. [Deep Learning Tutorial with PyTorch](https://github.com/mint-lab/dl_tutorial)
+1. _Python_ Review: From Begineers to Intermediate
+2. Programming meets Mathematics: Building Mathematical Intuition with _SciPy_
+3. Machine Learning Tutorial with _scikit-learn_
+4. [Deep Learning Tutorial with _PyTorch_](https://github.com/mint-lab/dl_tutorial)
 
 
 ### Practice Examples

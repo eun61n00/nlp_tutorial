@@ -32,8 +32,13 @@ for vector in dataset_vectors:
     # Train the model
     model = svm.SVC()
     model.fit(vector['train'], train.target)
+    train_predict = model.predict(vector['train'])
+    train_accuracy = metrics.balanced_accuracy_score(train.target, train_predict)
 
     # Test the model
-    predict = model.predict(vector['test'])
-    accuracy = metrics.balanced_accuracy_score(test.target, predict)
-    print(f'* {vector["name"]}: {accuracy:.3f}')
+    test_predict = model.predict(vector['test'])
+    test_accuracy = metrics.balanced_accuracy_score(test.target, test_predict)
+
+    print(f'* {vector["name"]}')
+    print(f'  * Training accuracy: {train_accuracy:.3f}')
+    print(f'  * Test accuracy: {test_accuracy:.3f}')
