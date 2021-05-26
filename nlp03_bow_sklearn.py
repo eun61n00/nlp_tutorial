@@ -2,19 +2,19 @@ from sklearn import (datasets, feature_extraction, linear_model, naive_bayes, ne
 
 # Load the 20 newsgroup dataset
 remove = ('headers', 'footers', 'quotes')
-train = datasets.fetch_20newsgroups(subset='train', remove=remove)
-test  = datasets.fetch_20newsgroups(subset='test',  remove=remove)
+train_raw = datasets.fetch_20newsgroups(subset='train', remove=remove)
+test_raw  = datasets.fetch_20newsgroups(subset='test',  remove=remove)
 
 # Train the vectorizer
 vectorizer = feature_extraction.text.TfidfVectorizer(min_df=5, max_df=0.1, stop_words='english')
 #vectorizer = feature_extraction.text.TfidfVectorizer(stop_words='english') # Try Kim's vectorizer
 #vectorizer = feature_extraction.text.TfidfVectorizer(max_df=0.08, stop_words='english', strip_accents='ascii', token_pattern='[A-Za-z]{1,}', ngram_range=(1,2), sublinear_tf=True) # Try Seo's vectorizer
-vectorizer.fit(train.data)
+vectorizer.fit(train_raw.data)
 print('* The size of vocabulary: ', len(vectorizer.vocabulary_))
 
 # Vectorize the training and test data
-train_vectors = vectorizer.transform(train.data)
-test_vectors = vectorizer.transform(test.data)
+train_vectors = vectorizer.transform(train_raw.data)
+test_vectors = vectorizer.transform(test_raw.data)
 
 # Instantiate training models
 models = [
@@ -28,13 +28,13 @@ models = [
 
 for m in models:
     # Train the model
-    m['inst'].fit(train_vectors, train.target)
+    m['inst'].fit(train_vectors, train_raw.target)
     train_predict = m['inst'].predict(train_vectors)
-    train_accuracy = metrics.balanced_accuracy_score(train.target, train_predict)
+    train_accuracy = metrics.balanced_accuracy_score(train_raw.target, train_predict)
 
     # Test the model
     test_predict = m['inst'].predict(test_vectors)
-    test_accuracy = metrics.balanced_accuracy_score(test.target, test_predict)
+    test_accuracy = metrics.balanced_accuracy_score(test_raw.target, test_predict)
 
     print(f'* {m["name"]}')
     print(f'  * Training accuracy: {train_accuracy:.3f}')

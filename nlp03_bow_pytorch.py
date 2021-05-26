@@ -10,14 +10,14 @@ import time
 # Define hyperparameters
 EPOCH_MAX = 2000
 EPOCH_LOG = 100
-OPTIMIZER_PARAM = { 'lr': 1 }
+OPTIMIZER_PARAM = {'lr': 1}
 USE_CUDA = torch.cuda.is_available()
 RANDOM_SEED = 777
 
 # A two-layer NN model
-class TwoLayerNN(nn.Module):
+class MyTwoLayerNN(nn.Module):
     def __init__(self, input_size, hidden_size=100, output_size=20):
-        super(TwoLayerNN, self).__init__()
+        super(MyTwoLayerNN, self).__init__()
         self.fc1 = nn.Linear(input_size, hidden_size)
         self.fc2 = nn.Linear(hidden_size, output_size)
 
@@ -39,25 +39,25 @@ if __name__ == '__main__':
 
     # 1.1. Load the 20 newsgroup dataset
     remove = ('headers', 'footers', 'quotes')
-    train_data = datasets.fetch_20newsgroups(subset='train', remove=remove)
-    test_data  = datasets.fetch_20newsgroups(subset='test',  remove=remove)
+    train_raw = datasets.fetch_20newsgroups(subset='train', remove=remove)
+    test_raw  = datasets.fetch_20newsgroups(subset='test',  remove=remove)
 
     # 1.2. Train the vectorizer
     vectorizer = feature_extraction.text.TfidfVectorizer(min_df=5, max_df=0.1, stop_words='english')
-    vectorizer.fit(train_data.data)
+    vectorizer.fit(train_raw.data)
 
     # 1.3. Vectorize the training and test data
-    train_vectors = vectorizer.transform(train_data.data).tocoo()
-    test_vectors  = vectorizer.transform(test_data.data).tocoo()
+    train_vectors = vectorizer.transform(train_raw.data).tocoo()
+    test_vectors  = vectorizer.transform(test_raw.data).tocoo()
 
     # 1.4. Tensorize the training and test data
     train_tensors = torch.sparse_coo_tensor([train_vectors.row, train_vectors.col], train_vectors.data, train_vectors.shape, dtype=torch.float32).to(dev)
-    train_targets = torch.LongTensor(train_data.target).to(dev)
+    train_targets = torch.LongTensor(train_raw.target).to(dev)
     test_tensors  = torch.sparse_coo_tensor([test_vectors.row, test_vectors.col], test_vectors.data, test_vectors.shape, dtype=torch.float32).to(dev)
-    test_targets  = torch.LongTensor(test_data.target).to(dev)
+    test_targets  = torch.LongTensor(test_raw.target).to(dev)
 
     # 2. Instantiate a model, loss function, and optimizer
-    model = TwoLayerNN(train_tensors.shape[1]).to(dev)
+    model = MyTwoLayerNN(train_tensors.shape[1]).to(dev)
     loss_func = F.cross_entropy
     optimizer = torch.optim.Adadelta(model.parameters(), **OPTIMIZER_PARAM)
 
