@@ -3,7 +3,7 @@ from sklearn import (datasets, feature_extraction, linear_model, naive_bayes, ne
 # Load the 20 newsgroup dataset
 remove = ('headers', 'footers', 'quotes')
 train_raw = datasets.fetch_20newsgroups(subset='train', remove=remove)
-test_raw  = datasets.fetch_20newsgroups(subset='test',  remove=remove)
+tests_raw = datasets.fetch_20newsgroups(subset='test',  remove=remove)
 
 # Train the vectorizer
 vectorizer = feature_extraction.text.TfidfVectorizer(min_df=5, max_df=0.1, stop_words='english')
@@ -14,7 +14,7 @@ print('* The size of vocabulary: ', len(vectorizer.vocabulary_))
 
 # Vectorize the training and test data
 train_vectors = vectorizer.transform(train_raw.data)
-test_vectors = vectorizer.transform(test_raw.data)
+tests_vectors = vectorizer.transform(tests_raw.data)
 
 # Instantiate training models
 models = [
@@ -33,9 +33,9 @@ for m in models:
     train_accuracy = metrics.balanced_accuracy_score(train_raw.target, train_predict)
 
     # Test the model
-    test_predict = m['inst'].predict(test_vectors)
-    test_accuracy = metrics.balanced_accuracy_score(test_raw.target, test_predict)
+    tests_predict = m['inst'].predict(tests_vectors)
+    tests_accuracy = metrics.balanced_accuracy_score(tests_raw.target, tests_predict)
 
     print(f'* {m["name"]}')
     print(f'  * Training accuracy: {train_accuracy:.3f}')
-    print(f'  * Test accuracy: {test_accuracy:.3f}')
+    print(f'  * Test accuracy: {tests_accuracy:.3f}')

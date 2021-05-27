@@ -75,7 +75,7 @@ if __name__ == '__main__':
     # 1.1. Load the 20 newsgroup dataset
     remove = ('headers', 'footers', 'quotes')
     train_raw = datasets.fetch_20newsgroups(subset='train', remove=remove)
-    test_raw  = datasets.fetch_20newsgroups(subset='test',  remove=remove)
+    tests_raw = datasets.fetch_20newsgroups(subset='test',  remove=remove)
 
     # 1.2. Prepare the vocabulary
     tokenizer = torchtext.data.utils.get_tokenizer('basic_english') # Try 'spacy' or your custom tokenizers
@@ -97,21 +97,22 @@ if __name__ == '__main__':
         return torch.cat(indices).to(dev), torch.tensor(offsets[:-1]).cumsum(dim=0).to(dev)
 
     train_indices, train_offsets = dataset2index(train_raw.data)
-    test_indices,  test_offsets  = dataset2index(test_raw.data)
+    tests_indices, tests_offsets = dataset2index(tests_raw.data)
     train_targets = torch.LongTensor(train_raw.target).to(dev)
-    test_targets  = torch.LongTensor(test_raw.target).to(dev)
+    tests_targets = torch.LongTensor(tests_raw.target).to(dev)
 
     # 2. Instantiate a model, loss function, and optimizer
     model = MyTwoLayerNN(len(vocab)).to(dev)
     loss_func = F.cross_entropy
     optimizer = torch.optim.Adadelta(model.parameters(), **OPTIMIZER_PARAM)
+    print('* The number of model parameters: ', sum([np.prod(p.size()) for p in model.parameters() if p.requires_grad]))
 
     # 3. Train the model
     loss_list = []
     start = time.time()
     for epoch in range(1, EPOCH_MAX + 1):
         train_loss = train(model, [(train_indices, train_offsets, train_targets)], loss_func, optimizer)
-        valid_loss, valid_accuracy = evaluate(model, [(test_indices, test_offsets, test_targets)], loss_func)
+        valid_loss, valid_accuracy = evaluate(model, [(tests_indices, tests_offsets, tests_targets)], loss_func)
 
         loss_list.append([epoch, train_loss, valid_loss, valid_accuracy])
         if epoch % EPOCH_LOG == 0:

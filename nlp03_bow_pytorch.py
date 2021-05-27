@@ -40,33 +40,35 @@ if __name__ == '__main__':
     # 1.1. Load the 20 newsgroup dataset
     remove = ('headers', 'footers', 'quotes')
     train_raw = datasets.fetch_20newsgroups(subset='train', remove=remove)
-    test_raw  = datasets.fetch_20newsgroups(subset='test',  remove=remove)
+    tests_raw  = datasets.fetch_20newsgroups(subset='test',  remove=remove)
 
     # 1.2. Train the vectorizer
     vectorizer = feature_extraction.text.TfidfVectorizer(min_df=5, max_df=0.1, stop_words='english')
     vectorizer.fit(train_raw.data)
+    print('* The size of vocabulary: ', len(vectorizer.vocabulary_))
 
     # 1.3. Vectorize the training and test data
     train_vectors = vectorizer.transform(train_raw.data).tocoo()
-    test_vectors  = vectorizer.transform(test_raw.data).tocoo()
+    tests_vectors = vectorizer.transform(tests_raw.data).tocoo()
 
     # 1.4. Tensorize the training and test data
     train_tensors = torch.sparse_coo_tensor([train_vectors.row, train_vectors.col], train_vectors.data, train_vectors.shape, dtype=torch.float32).to(dev)
     train_targets = torch.LongTensor(train_raw.target).to(dev)
-    test_tensors  = torch.sparse_coo_tensor([test_vectors.row, test_vectors.col], test_vectors.data, test_vectors.shape, dtype=torch.float32).to(dev)
-    test_targets  = torch.LongTensor(test_raw.target).to(dev)
+    tests_tensors = torch.sparse_coo_tensor([tests_vectors.row, tests_vectors.col], tests_vectors.data, tests_vectors.shape, dtype=torch.float32).to(dev)
+    tests_targets = torch.LongTensor(tests_raw.target).to(dev)
 
     # 2. Instantiate a model, loss function, and optimizer
     model = MyTwoLayerNN(train_tensors.shape[1]).to(dev)
     loss_func = F.cross_entropy
     optimizer = torch.optim.Adadelta(model.parameters(), **OPTIMIZER_PARAM)
+    print('* The number of model parameters: ', sum([np.prod(p.size()) for p in model.parameters() if p.requires_grad]))
 
     # 3. Train the model
     loss_list = []
     start = time.time()
     for epoch in range(1, EPOCH_MAX + 1):
         train_loss = train(model, [(train_tensors, train_targets)], loss_func, optimizer)
-        valid_loss, valid_accuracy = evaluate(model, [(test_tensors, test_targets)], loss_func)
+        valid_loss, valid_accuracy = evaluate(model, [(tests_tensors, tests_targets)], loss_func)
 
         loss_list.append([epoch, train_loss, valid_loss, valid_accuracy])
         if epoch % EPOCH_LOG == 0:
