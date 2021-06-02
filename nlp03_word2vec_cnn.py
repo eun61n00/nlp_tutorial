@@ -17,31 +17,39 @@ DATA_MAX_LEN = 200
 USE_CUDA = torch.cuda.is_available()
 RANDOM_SEED = 777
 
-# A classifier with a GRU with the pretrained word2vec table
-class MyRNN(nn.Module):
-    def __init__(self, embedding, rnn_hidden_size=100, rnn_num_layer=1, output_size=20):
-        super(MyRNN, self).__init__()
+# A classifier with CNN with the pretrained word2vec table
+class MyCNN(nn.Module):
+    def __init__(self, embedding, seq_size=DATA_MAX_LEN, cnn_out_ch=10, output_size=20):
+        super(MyCNN, self).__init__()
         self.embed = nn.Embedding.from_pretrained(embedding, freeze=True)
-        self.drop  = nn.Dropout(0.2)
-        self.rnn   = nn.GRU(embedding.shape[-1], rnn_hidden_size, rnn_num_layer, batch_first=True) # Try 'RNN' or 'LSTM'
-        self.fc    = nn.Linear(rnn_hidden_size, output_size)
+        self.conv2 = nn.Conv1d(seq_size, cnn_out_ch, 2)
+        self.conv3 = nn.Conv1d(seq_size, cnn_out_ch, 3)
+        self.conv4 = nn.Conv1d(seq_size, cnn_out_ch, 4)
+        self.conv5 = nn.Conv1d(seq_size, cnn_out_ch, 5)
+        self.pool2 = nn.MaxPool1d(2, 2)
+        self.pool3 = nn.MaxPool1d(3, 2)
+        self.pool4 = nn.MaxPool1d(4, 2)
+        self.pool5 = nn.MaxPool1d(5, 2)
+        out_size = lambda in_size, kernel, stride=1: np.floor((in_size - (kernel - 1) - 1) / stride + 1) # Assume) padding=0, dilation=1
+        embed_size = embedding.shape[-1]
+        union_size = int(out_size(out_size(embed_size, 2), 2, 2) + \
+                         out_size(out_size(embed_size, 3), 3, 2) + \
+                         out_size(out_size(embed_size, 4), 4, 2) + \
+                         out_size(out_size(embed_size, 5), 5, 2)) * cnn_out_ch
+        self.fc    = nn.Linear(union_size, output_size)
 
-        # Initialize weight variables
-        self.embed.weight.requires_grad = False
-        self.fc.weight.data.uniform_(-0.5, 0.5)
-        self.fc.bias.data.zero_()
+        self.embed.weight.requires_grad = False # Freeze 'self.embed'
 
     def forward(self, indices):
-        # cf. Tensor size
-        #     indices: batch_size x seq_size (DATA_MAX_LEN)
-        #     vectors: batch_size x seq_size x embed_size
-        #     outputs: batch_size x seq_size x rnn_hidden_size
-        #     fc_outs: batch_size x output_size (20)
-        vectors = self.embed(indices)
-        vectors = self.drop(vectors)
-        outputs, hidden = self.rnn(vectors)
-        fc_outs = self.fc(outputs[:,-1]) # Use output of the last sequence
-        return fc_outs
+        v0 = self.embed(indices)
+        x2 = self.pool2(F.relu(self.conv2(v0)))
+        x3 = self.pool3(F.relu(self.conv3(v0)))
+        x4 = self.pool4(F.relu(self.conv4(v0)))
+        x5 = self.pool5(F.relu(self.conv5(v0)))
+        union = torch.cat((x2, x3, x4, x5), dim=2)
+        union = union.reshape(union.size(0), -1)
+        out = self.fc(union)
+        return out
 
 
 if __name__ == '__main__':
@@ -73,7 +81,7 @@ if __name__ == '__main__':
     tests_dloader = DataLoader(TensorDataset(tests_tensors, tests_targets), **DATA_LOADER_PARAM)
 
     # 2. Instantiate a model, loss function, and optimizer
-    model = MyRNN(word2vec.vectors).to(dev)
+    model = MyCNN(word2vec.vectors).to(dev)
     loss_func = F.cross_entropy
     optimizer = torch.optim.Adadelta(model.parameters(), **OPTIMIZER_PARAM)
     print('* The number of model parameters: ', sum([np.prod(p.size()) for p in model.parameters() if p.requires_grad]))
