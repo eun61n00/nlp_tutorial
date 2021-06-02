@@ -24,7 +24,7 @@ This tutorial is an _additional_ part of my four sequels of tutorials. Many exam
 * **One-hot encoding**
   * [One-hot Vectorization (Word Representation)](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp02_onehot_word.py)
   * [One-hot Vectorization (Document Representation)](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp02_onehot_doc.py)
-* **Bag-of-words**
+* **Bag-of-words (Document Representation)**
   * [Visualizing the Inverse Document Frequency](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp02_bow_df.py)
   * [Bag-of-words Vectorization by My Hands](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp02_bow_hand.py)
   * Review) [Text Classification with scikit-learn](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp02_bow_sklearn.py)
@@ -33,14 +33,22 @@ This tutorial is an _additional_ part of my four sequels of tutorials. Many exam
   * [Vocabulary Analysis using Document Frequency](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp02_vocab_analysis.py)
   * [Vocabulary Refinement using Document Frequency](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp02_vocab_refine.py)
   * [Vocabulary Benchmark with scikit-learn](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp02_vocab_bench.py)
-* **Word Embedding**
+* **Word Embedding (Word Representation)**
   * [Word2vec with spaCy](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp02_word2vec_spacy.py)
   * [Word2vec with spaCy (Direct Access to the Lookup Table)](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp02_word2vec_spacy_direct.py)
   * [Finding Most Similar Words](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp02_word2vec_similar.py)
   * [Word Arithmetic](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp02_word2vec_arithmetic.py)
+  * [Word2vec with PyTorch](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp02_word2vec_pytorch.py) and [Its Korean version](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp02_word2vec_pytorch_ko.py)
 
 #### **3) Text Classification**
-
+* **[The 20 Newsgroup Dataset](http://qwone.com/~jason/20Newsgroups/)**
+  * [Classic ML methods with Bag-of-words](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp03_bow_sklearn.py) (sckkit-learn)
+  * [MLP with Bag-of-words](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp03_bow_pytorch.py) (scikit-learn + PyTorch)
+  * [MLP with Bag-of-words](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp03_bow_pytorch_only.py) (PyTorch only)
+  * [Document Length Analysis](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp03_doc_analysis.py)
+  * [RNN with word embedding](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp03_word2vec_rnn.py) (PyTorch)
+  * [RNN with _pretrained_ word embedding](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp03_word2vec_rnn_pretrain.py) (PyTorch)
+  * [CNN with _pretrained_ word embedding](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp03_word2vec_cnn.py) (PyTorch)
 
 ### Author
 * [Sunglok Choi](http://mint-lab.github.io/) (sunglok AT seoultech DOT ac DOT kr)
