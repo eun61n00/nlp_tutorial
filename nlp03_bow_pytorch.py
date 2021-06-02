@@ -16,9 +16,9 @@ RANDOM_SEED = 777
 
 # A two-layer NN model
 class MyTwoLayerNN(nn.Module):
-    def __init__(self, input_size, hidden_size=100, output_size=20):
+    def __init__(self, vocab_size, hidden_size=100, output_size=20):
         super(MyTwoLayerNN, self).__init__()
-        self.fc1 = nn.Linear(input_size, hidden_size)
+        self.fc1 = nn.Linear(vocab_size, hidden_size)
         self.fc2 = nn.Linear(hidden_size, output_size)
 
         nn.init.xavier_uniform_(self.fc1.weight)
@@ -40,7 +40,7 @@ if __name__ == '__main__':
     # 1.1. Load the 20 newsgroup dataset
     remove = ('headers', 'footers', 'quotes')
     train_raw = datasets.fetch_20newsgroups(subset='train', remove=remove)
-    tests_raw  = datasets.fetch_20newsgroups(subset='test',  remove=remove)
+    tests_raw = datasets.fetch_20newsgroups(subset='test',  remove=remove)
 
     # 1.2. Train the vectorizer
     vectorizer = feature_extraction.text.TfidfVectorizer(min_df=5, max_df=0.1, stop_words='english')

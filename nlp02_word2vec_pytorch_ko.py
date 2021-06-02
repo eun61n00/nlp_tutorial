@@ -1,7 +1,7 @@
 import torch, torchtext
 from sklearn.metrics.pairwise import cosine_similarity
 
-word2vec = torchtext.vocab.FastText('ko') # It downloads a lookup table for word embedding.
+word2vec = torchtext.vocab.FastText('ko')     # It downloads a lookup table for word embedding.
 words = ['개', '고양이', '사과', '바나나', 'ㅋㅋㅋ'] # Try your examples
 word_vectors =[word2vec[word].numpy() for word in words]
 

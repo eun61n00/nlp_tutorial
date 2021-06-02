@@ -6,7 +6,7 @@ import torch.nn.functional as F
 from torch.utils.data import TensorDataset, DataLoader
 from sklearn import datasets
 from dnn_iris2 import train, evaluate
-import collections, time
+import time
 
 # Define hyperparameters
 EPOCH_MAX = 500
@@ -19,15 +19,15 @@ RANDOM_SEED = 777
 
 # A two-layer NN model
 class MyRNN(nn.Module):
-    def __init__(self, vocab_size, embed_size=300, rnn_hidden_size=100, rnn_num_layer=1, output_size=20):
+    def __init__(self, embedding, embedding_freeze=True, rnn_hidden_size=100, rnn_num_layer=1, output_size=20):
         super(MyRNN, self).__init__()
-        self.embed = nn.Embedding(vocab_size, embed_size)
+        self.embed = nn.Embedding.from_pretrained(embedding, freeze=embedding_freeze)
         self.drop  = nn.Dropout(0.2)
-        self.rnn   = nn.GRU(embed_size, rnn_hidden_size, rnn_num_layer, batch_first=True)
+        self.rnn   = nn.GRU(embedding.shape[-1], rnn_hidden_size, rnn_num_layer, batch_first=True) # Try 'RNN' or 'LSTM'
         self.fc    = nn.Linear(rnn_hidden_size, output_size)
 
         # Initialize weight variables
-        self.embed.weight.data.uniform_(-0.5, 0.5)
+        self.embed.weight.requires_grad = False
         self.fc.weight.data.uniform_(-0.5, 0.5)
         self.fc.bias.data.zero_()
 
@@ -56,14 +56,11 @@ if __name__ == '__main__':
     train_raw = datasets.fetch_20newsgroups(subset='train', remove=remove)
     tests_raw = datasets.fetch_20newsgroups(subset='test',  remove=remove)
 
-    # 1.2. Prepare the vocabulary
+    # 1.2. Load the word2vec lookup table
     tokenizer = torchtext.data.utils.get_tokenizer('basic_english')
-    counter = collections.Counter()
-    for doc in train_raw.data:
-        counter.update(tokenizer(doc))
-    vocab = torchtext.vocab.Vocab(counter, min_freq=5)
-    doc2index = lambda doc: [vocab[token] for token in tokenizer(doc)]
-    print('* The size of vocabulary: ', len(vocab))
+    word2vec = torchtext.vocab.FastText('en')
+    doc2index = lambda doc: [word2vec.stoi[token] for token in tokenizer(doc) if token in word2vec.stoi]
+    print('* The size of vocabulary: ', word2vec.vectors.shape[0])
 
     # 1.3. Tensorize training and test data
     train_indices = [torch.LongTensor(doc2index(doc)[:DATA_MAX_LEN]) for doc in train_raw.data] # Trim if > DATA_MAX_LEN
@@ -76,7 +73,7 @@ if __name__ == '__main__':
     tests_dloader = DataLoader(TensorDataset(tests_tensors, tests_targets), **DATA_LOADER_PARAM)
 
     # 2. Instantiate a model, loss function, and optimizer
-    model = MyRNN(len(vocab)).to(dev)
+    model = MyRNN(word2vec.vectors).to(dev)
     loss_func = F.cross_entropy
     optimizer = torch.optim.Adadelta(model.parameters(), **OPTIMIZER_PARAM)
     print('* The number of model parameters: ', sum([np.prod(p.size()) for p in model.parameters() if p.requires_grad]))

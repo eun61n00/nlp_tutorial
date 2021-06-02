@@ -7,7 +7,7 @@ from sklearn import datasets
 import collections, time
 
 # Define hyperparameters
-EPOCH_MAX = 40000
+EPOCH_MAX = 20000
 EPOCH_LOG = 100
 OPTIMIZER_PARAM = {'lr': 1}
 USE_CUDA = torch.cuda.is_available()
