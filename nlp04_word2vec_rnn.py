@@ -17,7 +17,7 @@ DATA_MAX_LEN = 200
 USE_CUDA = torch.cuda.is_available()
 RANDOM_SEED = 777
 
-# A two-layer NN model
+# A classifier with a RNN unit
 class MyRNN(nn.Module):
     def __init__(self, vocab_size, embed_size=300, rnn_hidden_size=100, rnn_num_layer=1, output_size=20):
         super(MyRNN, self).__init__()
