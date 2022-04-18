@@ -7,7 +7,7 @@ nlp = spacy.load('en_core_web_lg')         # Download a larger model via 'python
 tokens = nlp('dog cat apple banana asdfg') # Try your examples
 
 # Print word vectorization
-print('### Word2vec vectorization')
+print('### Word2Vec vectorization')
 print('* Dimension: ', len(tokens[0].vector))
 print('| WORD   | HAS_VEC | NORM   | IS_OOV |')
 print('| ------ | ------- | ------ | ------ |')

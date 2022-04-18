@@ -8,7 +8,7 @@ This tutorial is an _additional_ part of my four sequels of tutorials. Many exam
 4. [Deep Learning Tutorial with _PyTorch_](https://github.com/mint-lab/dl_tutorial)
 
 
-### Practice Examples
+### Code Examples
 #### 1) Text Preprocessing
 * **Tokenization**
   * [Simple Word Tokenization by My Hands](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp01_tokenization_simple.py)
@@ -21,7 +21,7 @@ This tutorial is an _additional_ part of my four sequels of tutorials. Many exam
   * [POS Tagging with KoNLPy](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp01_preprocess_konlpy.py)
 
 #### 2) Text Vectorization: Bag-of-Words
-* **One-hot encoding**
+* **One-hot Encoding**
   * [One-hot Vectorization (Word Representation)](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp02_onehot_word.py)
   * [One-hot Vectorization (Document Representation)](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp02_onehot_doc.py)
 * **Bag-of-words (Document Representation)**
@@ -36,10 +36,10 @@ This tutorial is an _additional_ part of my four sequels of tutorials. Many exam
 
 #### 3) Text Vectorization: Word Embedding
 * **Word Embedding (Word Representation)**
-  * Word2vec by My Hands
-  * [Word2vec with spaCy](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp03_word2vec_spacy.py)
-  * [Word2vec with spaCy (Direct Access to the Lookup Table)](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp03_word2vec_spacy_direct.py)
-  * [Word2vec with PyTorch](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp03_word2vec_pytorch.py) and [Its Korean version](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp03_word2vec_pytorch_ko.py)
+  * [Word2Vec (skip-gram) by My Hands](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp03_word2vec_hand.py)
+  * [Word2Vec with spaCy](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp03_word2vec_spacy.py)
+  * [Word2Vec with spaCy (Direct Access to the Lookup Table)](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp03_word2vec_spacy_direct.py)
+  * [Word2Vec with PyTorch](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp03_word2vec_pytorch.py) and [Its Korean version](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp03_word2vec_pytorch_ko.py)
 * **Applications**
   * [Finding Most Similar Words](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp03_app_similar_word.py)
   * [Word Arithmetic](https://github.com/mint-lab/nlp_tutorial/blob/master/nlp03_app_word_arithmetic.py)
